@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IdentityExample.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -20,6 +18,17 @@ namespace IdentityExample
                 config.Cookie.Name = "Grandmas.Cookie";
                 config.LoginPath = "/Home/Authenticate";
             });*/
+            
+            /*
+             * add Identity for register services
+             */
+
+            services.AddDbContext<AppDbContext>( config =>
+            {
+                config.UseInMemoryDatabase("Memory");
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
         }
